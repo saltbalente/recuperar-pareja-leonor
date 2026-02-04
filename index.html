@@ -818,7 +818,28 @@ window.lazyLoadOptions={elements_selector:"img[data-src],.perfmatters-lazy,.perf
 wp.i18n.setLocaleData( { 'text direction\u0004ltr': [ 'ltr' ] } );
 //# sourceURL=wp-i18n-js-after
 </script>
- 
+ <script>
+document.addEventListener("DOMContentLoaded", function() {
+  // Selecciona todas las imágenes del carrusel de testimonios
+  document.querySelectorAll('.elementor-image-carousel-wrapper .swiper-slide img').forEach(function(img) {
+    
+    // Si la imagen tiene data-lazy-src pero el src aún es un placeholder SVG
+    if (
+      img.hasAttribute('data-lazy-src') &&
+      (img.src.startsWith('data:image/svg+xml') || img.src === '')
+    ) {
+      // Actualiza el src con la URL real
+      img.src = img.getAttribute('data-lazy-src');
+      
+      // Añade las clases necesarias para indicar que está cargada
+      img.classList.add('entered', 'lazyloaded');
+      
+      // Marca el estado de carga
+      img.setAttribute('data-ll-status', 'loaded');
+    }
+  });
+});
+</script>
 <script data-rocket-defer="" data-rocket-src="wp-content/plugins/elementor-pro/assets/js/frontend.min.js" defer="" id="elementor-pro-frontend-js" type="rocketlazyloadscript"></script>
 <script data-rocket-defer="" data-rocket-src="wp-content/plugins/elementor-pro/assets/js/elements-handlers.min.js" defer="" id="pro-elements-handlers-js" type="rocketlazyloadscript"></script>
 <script>window.lazyLoadOptions=[{elements_selector:"img[data-lazy-src],.rocket-lazyload,iframe[data-lazy-src]",data_src:"lazy-src",data_srcset:"lazy-srcset",data_sizes:"lazy-sizes",class_loading:"lazyloading",class_loaded:"lazyloaded",threshold:300,callback_loaded:function(element){if(element.tagName==="IFRAME"&&element.dataset.rocketLazyload=="fitvidscompatible"){if(element.classList.contains("lazyloaded")){if(typeof window.jQuery!="undefined"){if(jQuery.fn.fitVids){jQuery(element).parent().fitVids()}}}}}},{elements_selector:".rocket-lazyload",data_src:"lazy-src",data_srcset:"lazy-srcset",data_sizes:"lazy-sizes",class_loading:"lazyloading",class_loaded:"lazyloaded",threshold:300,}];window.addEventListener('LazyLoad::Initialized',function(e){var lazyLoadInstance=e.detail.instance;if(window.MutationObserver){var observer=new MutationObserver(function(mutations){var image_count=0;var iframe_count=0;var rocketlazy_count=0;mutations.forEach(function(mutation){for(var i=0;i<mutation.addedNodes.length;i++){if(typeof mutation.addedNodes[i].getElementsByTagName!=='function'){continue}
